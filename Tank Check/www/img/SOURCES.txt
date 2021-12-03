@@ -1,0 +1,3 @@
+therm.png from https://openclipart.org/detail/170665/weather-icon-cold
+up.png from https://openclipart.org/detail/170665/weather-icon-cold
+check.png from https://openclipart.org/detail/17056/tick

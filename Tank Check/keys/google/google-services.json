@@ -1,0 +1,299 @@
+{
+  "project_info": {
+    "project_number": "954705697354",
+    "firebase_url": "https://mopeka-f51fc.firebaseio.com",
+    "project_id": "mopeka-f51fc",
+    "storage_bucket": "mopeka-f51fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954705697354:android:42de91b5af4775ed44a4b3",
+        "android_client_info": {
+          "package_name": "com.mopeka.bmpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWiSeK7y4MWLLAs_44RGR_6YRc0eTeM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "954705697354-0b4qbq8co61lq7hrh0aa8rvg0i0nh560.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mopeka.gascheck"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954705697354:android:478a4f2e21465f5f44a4b3",
+        "android_client_info": {
+          "package_name": "com.mopeka.eyegas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWiSeK7y4MWLLAs_44RGR_6YRc0eTeM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "954705697354-0b4qbq8co61lq7hrh0aa8rvg0i0nh560.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mopeka.gascheck"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954705697354:android:09647f7b359ec89e44a4b3",
+        "android_client_info": {
+          "package_name": "com.mopeka.gascheck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWiSeK7y4MWLLAs_44RGR_6YRc0eTeM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "954705697354-0b4qbq8co61lq7hrh0aa8rvg0i0nh560.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mopeka.gascheck"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954705697354:android:48fe253698bedd2d44a4b3",
+        "android_client_info": {
+          "package_name": "com.mopeka.lippert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWiSeK7y4MWLLAs_44RGR_6YRc0eTeM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "954705697354-0b4qbq8co61lq7hrh0aa8rvg0i0nh560.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mopeka.gascheck"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954705697354:android:778eec2dfdcee54f44a4b3",
+        "android_client_info": {
+          "package_name": "com.mopeka.mttracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWiSeK7y4MWLLAs_44RGR_6YRc0eTeM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "954705697354-0b4qbq8co61lq7hrh0aa8rvg0i0nh560.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mopeka.gascheck"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954705697354:android:3fb95955a3c4917544a4b3",
+        "android_client_info": {
+          "package_name": "com.mopeka.tankcheck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWiSeK7y4MWLLAs_44RGR_6YRc0eTeM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "954705697354-0b4qbq8co61lq7hrh0aa8rvg0i0nh560.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mopeka.gascheck"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954705697354:android:35ee90d14b6ac4b944a4b3",
+        "android_client_info": {
+          "package_name": "com.mopeka.vertrax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWiSeK7y4MWLLAs_44RGR_6YRc0eTeM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "954705697354-0b4qbq8co61lq7hrh0aa8rvg0i0nh560.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mopeka.gascheck"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954705697354:android:25add3a9d332921444a4b3",
+        "android_client_info": {
+          "package_name": "com.mopeka.yonke"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWiSeK7y4MWLLAs_44RGR_6YRc0eTeM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954705697354-6af5a28n505c600kqmc19p9cgdnt2hm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "954705697354-0b4qbq8co61lq7hrh0aa8rvg0i0nh560.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mopeka.gascheck"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,17 @@
+// This payload works for all paltforms
+{
+  "default": "Tankcheck Alert", 
+  "GCM": "{ \"notification\": { \"body\": \"message body\", \"title\": \"message title\", \"sound\":\"default\" } , \"data\" : {\"key\" : \"value\", \"key2\" : \"value\" } }"
+}
+
+{
+  "GCM": "{\"priority\":\"normal\", \"notification\": { \"body\": \"message body\", \"title\": \"message title\", \"sound\":\"default\" }, \"data\":{\"title\":\"A short string describing the purpose of the notification\",\"message\":\"The text of the alert message\",\"count\":5,\"sound\": \"default\",\"notId\":1,\"content-available\":\"0\",\"custom_key1\":\"value1\",\"custom_key2\":\"value2\"}}",
+  "default": "plain text message again"
+}
+
+// this payload works for tapping notifications only on android. can't have both notificatio and data
+// but data only results in it not working for ios
+{
+  "GCM": "{\"priority\":\"normal\",\"data\":{\"title\":\"A short string describing the purpose of the notification\",\"message\":\"The text of the alert message\",\"count\":5,\"sound\": \"default\",\"notId\":1,\"content-available\":\"0\",\"custom_key1\":\"value1\",\"custom_key2\":\"value2\"}}",
+  "default": "plain text message again"
+}

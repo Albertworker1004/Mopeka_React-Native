@@ -1,0 +1,8 @@
+:root {
+    --color-primary: #002644;
+    --color-secondary: #3f738d;
+}
+
+.app-logo {
+    display: none;
+}

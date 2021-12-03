@@ -1,0 +1,5 @@
+ughhh cordova problems
+On iOS ensure the build setting "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES" is set to "$(inherited)" for the main build target and all pods
+some plugins are overriding this and it causes build failures
+ensure the ./platforms/ios/Podfile has "use_frameworks!"
+This is supposed to be set by a plugin after build hook, but that isn't consistently running

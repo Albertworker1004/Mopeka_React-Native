@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "sourceMap": true,
+    "allowJs": true,
+    "noImplicitReturns": true,
+    "module": "es2015",
+    "target": "es6",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "removeComments": true,
+    "jsx": "react",
+  },
+  "exclude": [
+    "www",
+    "node_modules",
+    "plugins",
+    "platforms",
+    "hooks"
+  ]
+}

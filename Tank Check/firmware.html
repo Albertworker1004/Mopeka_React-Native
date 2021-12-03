@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>TankCheck LoRa Sensor Firmware</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h1 id="tankcheck-lora-sensor-firmware">TankCheck LoRa Sensor Firmware</h1>
+<hr>
+<h2 id="ble-ota">BLE OTA</h2>
+<p>Over the air updates can be performed over BLE using the nRFConnect app. Only Android has been tested.</p>
+<p>To start an update, launch nRFConnect and scan for the device.  The Tankcheck devices currently do not send a BLE name, so they will appear as &quot;N/A&quot; in the scan list.  Once connected you will see a small &quot;DFU&quot; icon in the top right corner of the app.  Click on the DFU button and then select the firmware that will be in the format &quot;TankCheck_v0.0.8.dfu.zip&quot;.</p>
+<p>If there are any errors during the update, check the log in nRFConnect for specific error messages.</p>
+<hr>
+<h2 id="blelora-parameters">BLE/Lora Parameters</h2>
+<p>All parameters detailed below will be sent with the BLE characteristic UUID: <code>6ff6xxxx-1392-4a00-93d7-551c884c2ec7</code> where <code>xxxx</code> is replaced by the variable ID. Over LORA, only the least significant 12-bits of the ID are used, so in all cases these parameter IDs will be limited to 12-bits so they can be accessed over BLE and LoRa.  Further, the convention for all parameters is to use bits 8-11 as a category for organizing variables into separate logical groups</p>
+<p><strong>TIP:</strong> If using nRFConnect to debug and tweak parameters, you can tap and hold on an &quot;Unknown Characteristic&quot; and can then assign a user defined name to the characteristic (per the info below), which can greatly help usability.</p>
+<h3 id="tankcheck-readings-group--0">TankCheck Readings (Group = 0)</h3>
+<p>BLE service UUID = <code>0000fee5-0000-1000-8000-00805f9b34fb</code></p>
+<p>Note: All variables in this service are transmitted over LoRa.</p>
+<h4 id="firmwareversion---0x0001">firmware_version  - 0x0001</h4>
+<ul>
+<li><strong>Description:</strong> Firmware version. It shall conform to the format (0-5).(0-99).(0-99) to fit in u16.  So firmware &quot;1.2.34&quot; is the same as 10234.  When this is &quot;written&quot;, it will start/trigger a LORA OTA update for the specified version number that was written.</li>
+<li><strong>Type:</strong> uint16_t</li>
+<li><strong>Scaling:</strong> N/A</li>
+<li><strong>Valid Range:</strong> N/A</li>
+<li><strong>Default:</strong> N/A</li>
+<li><strong>Permission:</strong> Read/Write</li>
+</ul>
+<h4 id="bootloaderversion---0x0006">bootloader_version  - 0x0006</h4>
+<ul>
+<li><strong>Description:</strong> Bootloader version. A single incrementing uint16_t version number for the current installed bootloader.  When this is &quot;written&quot;, it will start/trigger a LORA OTA update for the specified version number that was written except a 0x8000 is appended.  Therefore the bootloader update over LORA should send the desired bootloader but append 0x8000 to the reported version as well.  This is to allow a distinction between normal and bootloader updates.</li>
+<li><strong>Type:</strong> uint16_t</li>
+<li><strong>Scaling:</strong> N/A</li>
+<li><strong>Valid Range:</strong> N/A</li>
+<li><strong>Default:</strong> N/A</li>
+<li><strong>Permission:</strong> Read/Write</li>
+</ul>
+<h4 id="toplevelpn---0x0003">top_level_pn - 0x0003</h4>
+<ul>
+<li><strong>Description:</strong> Top level part number and version</li>
+<li><strong>Type:</strong> string</li>
+<li><strong>Scaling:</strong> N/A</li>
+<li><strong>Valid Range:</strong> N/A</li>
+<li><strong>Default:</strong> N/A</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="serialnumber---0x0005">serial_number - 0x0005</h4>
+<ul>
+<li><strong>Description:</strong> Serial number of the device - top_level_pn + serial_number is what shall be on the label</li>
+<li><strong>Type:</strong> uint32_t</li>
+<li><strong>Scaling:</strong> N/A</li>
+<li><strong>Valid Range:</strong> N/A</li>
+<li><strong>Default:</strong> N/A</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="pcbapn---0x0004">pcba_pn - 0x0004</h4>
+<ul>
+<li><strong>Description:</strong> PCB assembly part number and version</li>
+<li><strong>Type:</strong> string</li>
+<li><strong>Scaling:</strong> N/A</li>
+<li><strong>Valid Range:</strong> N/A</li>
+<li><strong>Default:</strong> N/A</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="rawlevel---0x004e">raw_level - 0x004E</h4>
+<ul>
+<li><strong>Description:</strong> The raw level (time of flight) of the ultrasound readings</li>
+<li><strong>Type:</strong> uint16_t</li>
+<li><strong>Scaling:</strong> us</li>
+<li><strong>Valid Range:</strong> 0 to 10000us</li>
+<li><strong>Default:</strong> 0us</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="quality---0x0051">quality - 0x0051</h4>
+<ul>
+<li><strong>Description:</strong> Arbitrary metric for quality of the ultrasonic reading</li>
+<li><strong>Type:</strong> uint16_t</li>
+<li><strong>Scaling:</strong> None</li>
+<li><strong>Valid Range:</strong> 0 to 65535</li>
+<li><strong>Default:</strong> 0</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="battery---0x0042">battery - 0x0042</h4>
+<ul>
+<li><strong>Description:</strong> Arbitrary metric for quality of the ultrasonic reading</li>
+<li><strong>Type:</strong> uint8_t</li>
+<li><strong>Scaling:</strong> raw / 64 [volts]</li>
+<li><strong>Valid Range:</strong> 0 to 3.6V</li>
+<li><strong>Default:</strong> 3.0V</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="tanktemperature---0x0054">tank_temperature - 0x0054</h4>
+<ul>
+<li><strong>Description:</strong> Temperature of tank</li>
+<li><strong>Type:</strong> uint8_t</li>
+<li><strong>Scaling:</strong> raw / 2 - 40 [degC]</li>
+<li><strong>Valid Range:</strong> -40 to 85C</li>
+<li><strong>Default:</strong> 25C</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="acceloxy---0x0002">acceloXY - 0x0002</h4>
+<ul>
+<li><strong>Description:</strong> Accelerometer X and Y readings.  Sent as 4 total bytes, but actually an array of 2 int16_t.</li>
+<li><strong>Type:</strong> int16_t[2]</li>
+<li><strong>Scaling:</strong> X = raw[0] / 16384 G.  Y = raw[1] / 16384 G</li>
+<li><strong>Valid Range:</strong> -2G to 2G for both X and Y</li>
+<li><strong>Default:</strong> 0G (gravities)</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="flags---0x0007">flags - 0x0007</h4>
+<ul>
+<li><strong>Description:</strong> System state bit flags</li>
+<li><strong>Type:</strong> uint8_t</li>
+<li><strong>Scaling:</strong>
+Bit 0 = state of SYNC button
+Bit 1 = hyper mode active (hyper_count != 0)
+Bit 2-7 = reserved</li>
+<li><strong>Valid Range:</strong> 0-255</li>
+<li><strong>Default:</strong> 0</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="peaksshort---0x0080">peaks_short - 0x0080</h4>
+<ul>
+<li><strong>Description:</strong> A compressed version of the graph that is generated from the derivative with some filtering to sum multiple consecutive rising points and to ignore spikes that are too low.  Also uses a delta timestamp to provide more resolution.</li>
+</ul>
+<p>This is only available over LORA.  It is sent as a variable length string consisting of an array of 2-byte structures.  The first byte in the structure is a 5us timestamp relative to the previous time + 1.  And the second byte is the amplitude of the peak.</p>
+<p>Pseudo code to generate a plot:</p>
+<pre><code><div>int time = 0;
+uint8_t plot[15000] = {0};				// fill all points with 0 - each index is 1us
+for (int i = 0; i &lt; rx_len; i += 2) {
+	uint16_t time += 1 + (rx_buf[i]);	// units are 5us ticks
+	uint8_t amplitude = rx_buf[i + 1];	// arbitrary amplitude units
+	plot[time*5] = amplitude; 	
+}
+display_plot(plot);
+</div></code></pre>
+<hr>
+<h3 id="tankcheck-settings-group-1">TankCheck Settings (Group 1)</h3>
+<p>BLE service UUID = <code>6ff6fee6-1392-4a00-93d7-551c884c2ec7</code></p>
+<p>The variables in this service configure various settings for the ultrasound and tankcheck sensors.  They are currently not documented because they are likely to change and should not be modified.</p>
+<h4 id="pulsestrength---0x0102">pulse_strength - 0x0102</h4>
+<ul>
+<li><strong>Description:</strong><br>
+How hard to strike the piezo.  This is proportional to the energy driven into the piezo and is roughly 1:1 with the peak voltage seen on the piezo</li>
+<li><strong>Type:</strong> uint8_t</li>
+<li><strong>Scaling:</strong> None / Arbitrary</li>
+<li><strong>Valid Range:</strong> 8 to 200</li>
+<li><strong>Default:</strong> 200</li>
+<li><strong>Permission:</strong> Read/Write</li>
+</ul>
+<h4 id="pulseskip---0x0107">pulse_skip - 0x0107</h4>
+<ul>
+<li><strong>Description:</strong><br>
+Indicates how long to ignore pulses at the start of a sample waveform.  This helps to avoid the initial ringing that typically shows immediately
+after the piezo is striked.  It is possible to still detect levels below this range, but the algorithm will rely only on the scoring of successive echoes rather than the actual
+echo amplitude that happens in this range.</li>
+<li><strong>Type:</strong> uint8_t</li>
+<li><strong>Scaling:</strong> raw * 20 [us]</li>
+<li><strong>Valid Range:</strong> 0us to 5100us</li>
+<li><strong>Default:</strong> 9</li>
+<li><strong>Permission:</strong> Read/Write</li>
+</ul>
+<h4 id="hypercount---0x0106">hyper_count - 0x0106</h4>
+<ul>
+<li><strong>Description:</strong><br>
+Indicates the number of samples that will run (or that are remaining) in hyper mode.  During hyper mode, the sampling is run at 350ms,
+so this parameter will allow you to specify a time for how long to be in hyper mode</li>
+<li><strong>Type:</strong> uint16_t</li>
+<li><strong>Scaling:</strong> hyper_rate ticks</li>
+<li><strong>Valid Range:</strong> 0 to 65535</li>
+<li><strong>Default:</strong> 0</li>
+<li><strong>Permission:</strong> Read/Write</li>
+</ul>
+<h4 id="shelflifemode---0x0108">shelf_life_mode - 0x0108</h4>
+<p>Manually enter low-power &quot;shelf-life&quot; mode with battery life that should last decades.  Can be woken up by pressing the SYNC button 5 times, or holding it for 5 seconds.
+Must write the value 0x02020202 to trigger.  Anything else has no effect.</p>
+<ul>
+<li><strong>Type:</strong> uint32_t</li>
+<li><strong>Scaling:</strong> None</li>
+<li><strong>Valid Range:</strong> N/A</li>
+<li><strong>Default:</strong> N/A</li>
+<li><strong>Permission:</strong> Write-Only</li>
+</ul>
+<hr>
+<h3 id="reserved-service-group-2">Reserved Service (Group 2)</h3>
+<p>BLE service UUID = <code>6ff6fee7-1392-4a00-93d7-551c884c2ec7</code></p>
+<p>Reserved for future use</p>
+<hr>
+<h3 id="lora-settings-group-3">LoRa Settings (Group 3)</h3>
+<p>BLE service UUID = <code>6ff6fee8-1392-4a00-93d7-551c884c2ec7</code></p>
+<h4 id="channel---0x0301">channel - 0x0301</h4>
+<ul>
+<li><strong>Description:</strong><br>
+The RF channel to use when initiating communication with the gateway. The actually frequency is <code>903MHz + channel * 200kHz</code>.  Note that this is custom and does not match LoRaWAN</li>
+<li><strong>Type:</strong> uint8_t</li>
+<li><strong>Scaling:</strong> None</li>
+<li><strong>Valid Range:</strong> 0 to 64</li>
+<li><strong>Default:</strong> 0</li>
+<li><strong>Permission:</strong> Read/Write</li>
+</ul>
+<h4 id="intervalmin---0x0302">interval_min - 0x0302</h4>
+<ul>
+<li><strong>Description:</strong><br>
+The minimum or base time in minutes between each transmission attempt. The actual time in ms between attempts is :<br>
+<code>time = lora_interval_min * 60000 + rand() % (lora_interval_rand * 60000) + (rand % 65536)</code></li>
+<li><strong>Type:</strong> uint16_t</li>
+<li><strong>Scaling:</strong> minutes</li>
+<li><strong>Valid Range:</strong> 1 to 65535</li>
+<li><strong>Default:</strong> 55 minutes</li>
+<li><strong>Permission:</strong> Read/Write</li>
+</ul>
+<h4 id="intervaldev---0x0303">interval_dev - 0x0303</h4>
+<ul>
+<li><strong>Description:</strong><br>
+The random deviation time in minutes for each transmission attempt. The actual time in ms between attempts is :<br>
+<code>time = lora_interval_min * 60000 + rand() % (lora_interval_rand * 60000) + (rand % 65536)</code></li>
+<li><strong>Type:</strong> uint16_t</li>
+<li><strong>Scaling:</strong> minutes</li>
+<li><strong>Valid Range:</strong> 1 to 65535</li>
+<li><strong>Default:</strong> 10 minutes</li>
+<li><strong>Permission:</strong> Read/Write</li>
+</ul>
+<h4 id="txpower---0x0304">tx_power - 0x0304</h4>
+<ul>
+<li><strong>Description:</strong><br>
+Transmit power in range +2dBm to +17dBm, or +20dBm.  To save battery life, this should be adjusted to the minimum that is needed to reach the gateway</li>
+<li><strong>Type:</strong> uint8_t</li>
+<li><strong>Scaling:</strong> dBm</li>
+<li><strong>Valid Range:</strong> 2 to 17, or 20</li>
+<li><strong>Default:</strong> 14</li>
+<li><strong>Permission:</strong> Read/Write</li>
+</ul>
+<h4 id="lastrssi---0x0305">last_rssi - 0x0305</h4>
+<ul>
+<li><strong>Description:</strong>  RSSI of last received packet</li>
+<li><strong>Type:</strong> int16_t</li>
+<li><strong>Scaling:</strong> dBm</li>
+<li><strong>Valid Range:</strong> TBD</li>
+<li><strong>Default:</strong> -32768 dBm (invalid)</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h4 id="lastsnr---0x0306">last_snr - 0x0306</h4>
+<ul>
+<li><strong>Description:</strong>  Estimation of the signal-to-noise ratio for the last packet received. In two’s compliment format mutiplied by 4.</li>
+<li><strong>Type:</strong> int8_t</li>
+<li><strong>Scaling:</strong> raw / 4 [V/V]</li>
+<li><strong>Valid Range:</strong> TBD</li>
+<li><strong>Default:</strong> -32 V/V (invalid)</li>
+<li><strong>Permission:</strong> Read-only</li>
+</ul>
+<h2 id="version-history">Version History</h2>
+<h3 id="version-0049---100119">Version 0.0.49 - 10/01/19</h3>
+<ul>
+<li>Changed so that LORA will be sent every 30s +/- 32.768s during hyper mode.  Also note, will reset any pending delay and start a new 30 +/- 32.768s delay upon entering hyper mode from being off.</li>
+</ul>
+<h3 id="version-0048---092319">Version 0.0.48 - 09/23/19</h3>
+<ul>
+<li>Fixed potential bug relating to int16_t versus uint16_t dealing with internal filtering if ever set above 32767.  Would cause the ultrasonic sampling/graphs to go haywire.  This had absolutely no effect because the default was only 2000 - this was discovered during EOL testing.</li>
+</ul>
+<h3 id="version-0047---092219">Version 0.0.47 - 09/22/19</h3>
+<ul>
+<li>Added 'flags' parameter that reflects the button state as well as hyper mode state (e.g. same as hyper_count != 0).  This was to facilitate EOL but available for any other needs.</li>
+</ul>
+<h3 id="version-0044-to-0046---091019">Version 0.0.44 to 0.0.46 - 09/10/19</h3>
+<ul>
+<li>Internal changes to support EOL as well as FCC testing.  Added support for undocumented 'debug_cmd' BLE parameter.</li>
+</ul>
+<h3 id="version-0043---090219">Version 0.0.43 - 09/02/19</h3>
+<h4 id="changes">Changes</h4>
+<ul>
+<li>Changed so that when no accelerometer is present (or bad solder) it will return the max negative value (-32768) for both X and Y instead of 0.  This is to ensure the accelerometer is out of range and will fail when not operational.</li>
+</ul>
+<h3 id="version-0041---082719">Version 0.0.41 - 08/27/19</h3>
+<h4 id="changes-1">Changes</h4>
+<ul>
+<li>NOTE: Units that were built prior to this should not be updated past this point.  New values are placed by EOL and no backwards compatibility was specifically tested</li>
+<li>Added support for storing the part number and serial number internally.  And now explicitly set the hwid (version flag) in the BLE advertisement to 0x02 for BULK and 0x01 for Vertrax Standard sensors</li>
+</ul>
+<h3 id="version-0040---082519">Version 0.0.40 - 08/25/19</h3>
+<h4 id="changes-2">Changes</h4>
+<ul>
+<li>Added 'bootloader_version' BLE parameter</li>
+<li>Other internal changes to cleanup debug messages and prep for radio test mode for EOL</li>
+</ul>
+<h3 id="version-0028-and-bootloader-v3">Version 0.0.28 and Bootloader V3</h3>
+<h4 id="changes-3">Changes</h4>
+<ul>
+<li>***MUST UPDATE TO V3 OF BOOTLOADER AND THEN V0.0.28 of firmware in that order.  Then can do BLE and LORA updates as normal</li>
+<li>Added support in bootloader to read the saved firmware from SPI flash and write it to the MCU using the exact DFU protocol that BLE uses.  Also modified the app to perform some sanity checks before jumping to the bootloader to finalized the update.</li>
+<li>Added a variable to send a &quot;compressed&quot; version of the graph.  It is basically the derivative of the original graph to reduce data and so I can only send the quick spike (summed for all rising portions) as a single point.  I send up to 56 of these spikes in one (and only) LORA packet.  Used a delta-t for the timestamp to store more resolution and lower absolute since they are strictly increasing.</li>
+</ul>
+<h3 id="version-0027---081219">Version 0.0.27 - 08/12/19</h3>
+<h4 id="changes-4">Changes</h4>
+<ul>
+<li>Added support for writing SPI flash from LORA (still need to add bootloader support to finish OTA)</li>
+<li>Changed tc struct to not be in flash - saved 5K flash</li>
+<li>Modified SPI driver to be bare-on-metal - saved 800 bytes flash.  To better support common code in upcoming bootloader change</li>
+</ul>
+<h3 id="version-0026---080719">Version 0.0.26 - 08/07/19</h3>
+<h4 id="changes-5">Changes</h4>
+<ul>
+<li>Modified so that the firmware version characteristic is 16 bits.</li>
+<li>Modified so the firmware version can be &quot;written&quot;.  This will trigger the LORA OTA update</li>
+<li>Changed LORA rx timeout from 3 to 1.5 seconds</li>
+<li>Modified so firmware request will request 4 packets be returned every 3 seconds</li>
+<li>Fixed so that the 'after' flag respects 0-250 as a value instead of 6-132</li>
+<li>Fixed LORA interrupts being missed.  They were actually only triggering after each sample period (350ms or 3.5 seconds depending on hyper mode).</li>
+</ul>
+<h3 id="version-0025---72619">Version 0.0.25 - 7/26/19</h3>
+<h4 id="changes-6">Changes</h4>
+<ul>
+<li>Added support for setting all writable characteristics via custom LORA command (SET_VALUES).</li>
+<li>Added support for receiving the LORA &quot;after&quot; parameter.  The device will send a response packet 500-1000ms (random interval) on the channel specificed by &quot;after&quot;.  The next packet will be either the normal broadcast parameters, or else the requested parameters if received by a REQ_VALUES command.</li>
+<li>Added support for received parameter requests via the LORA command REQ_VALUES.  If the request list is received with the &quot;after&quot; flag, the response will be sent immediately after (500-1000ms). Otherwise will be sent on next normal update <em>instead</em> of the usual values - we can change this if needed.  Note: Not fully tested because no g/w support yet</li>
+<li>Added initial non-finished code for REQ_FW command.  No way to actually have the f/w auto start the process though so only tested manually. Note: Not fully tested because no g/w support yet</li>
+<li>Added serial number characteristic (0x0005).</li>
+</ul>
+<h3 id="version-0024---72119">Version 0.0.24 - 7/21/19</h3>
+<h4 id="changes-7">Changes</h4>
+<ul>
+<li>Added support for &quot;manufacturing&quot; mode or &quot;shelf-life&quot; mode.  This is a low power off mode that the device will ship from the factory similar to our previous generation sensors.  Press the SYNC button 5 times or else hold for 5 seconds, and it will wake up permanently.   After any press, the sensor will stay awake for 60 seconds listening for the button wake sequences.  During this time everything is operational except the advertisement uses manufacturer ID 0x0060 instead of 0x0059.  Current consumption is approximately 600-800nA when asleep.</li>
+<li>Added support for manually invoking &quot;shelf-life&quot; mode via characteristic uuid 0x0108.  You must write the magic value 0x02020202 to enter.  This is slighly different from
+how the devices ship in that any hard power cycle will also cause the sensor to exit shelf-life mode - in contrast, only the button press sequences can wake it up from the factory</li>
+<li>New &quot;version 2&quot; bootloader to prevent conflicts with shelf-life &quot;OFF&quot; mode to prevent bootloader from being prevented when waking up from shelf life mode</li>
+<li>Slowed down RC clock calibration rate to improve battery life very slightly</li>
+<li>Added support for R/W auth characteristics with bounds/range checks.  And added upper bounds to the pulse_power parameter to prevent overdriving our circuitry</li>
+</ul>
+<h4 id="known-issues">Known Issues</h4>
+<ul>
+<li>Original bootloader shipped on about 30 units will not work properly with the manually invoked shelf-life mode.  The problem is that when you try to wake it up, the bootloader will be invoked because it is coming from POWER OFF with a button press, which is normally a manual way to get into the bootloader.  The workaround is to remove power.  It may also be possible to wait for the bootloader delay to finish and then during the 60 second awake window, press the SYNC button to awake it permanently.  Bootloader should be updatable although I have not tested yet.</li>
+</ul>
+<h3 id="version-0022---71719">Version 0.0.22 - 7/17/19</h3>
+<h4 id="changes-8">Changes</h4>
+<ul>
+<li>Added support for putting the SPI NOR flash is low power mode to keep idle current low to preserve battery</li>
+<li>Added pulse_skip setting to ignore the first N samples of the wave form.  Defaults to 9 (180us) and used to be hard coded 3 (60us).  Useful to avoid some of the noise/ringing immediately after piezo strike, e.g. for large tanks where a few inches doesn't matter anyway.</li>
+</ul>
+<h3 id="version-0020---7619">Version 0.0.20 - 7/6/19</h3>
+<h4 id="changes-9">Changes</h4>
+<ul>
+<li>Added top-level and PCBA characteristics</li>
+<li>Updated accelerometer to use stack for reading (saves ~190 bytes of RAM).</li>
+<li>Grew stack by 512 bytes.</li>
+<li>Added ability to write pcba part number to user flash on bootup and then load from there to prevent a case where device comes up differently on boot.  Also should allow factory settings to save need for boot pins.</li>
+<li>Some other RAM savings</li>
+<li>Added RAM functions and RAM_FUNC macro to place functions in RAM - should see speedup and battery savings.</li>
+<li>Change to retry accelo 3 times before giving up</li>
+</ul>
+<h3 id="version-0017---63019">Version 0.0.17 - 6/30/19</h3>
+<h4 id="changes-10">Changes</h4>
+<ul>
+<li>Added hyper_count parameter to manually set how long to be in hyper mode</li>
+<li>Changed default connection intervals to be slower with longer slave latency</li>
+</ul>
+<h3 id="version-0015---62819">Version 0.0.15 - 6/28/19</h3>
+<h4 id="changes-11">Changes</h4>
+<ul>
+<li>Modified BLE advertisement to better support new features.  Supported by app v2.1.40+.</li>
+</ul>
+<h3 id="version-0014---53019">Version 0.0.14 - 5/30/19</h3>
+<h4 id="changes-12">Changes</h4>
+<ul>
+<li>Modified algorithm to be much improved - specifically tweaked timing of pulses and capturing of the edges.  Also quality is much more stable and fixed various issues here when using aggressive power and gain settings</li>
+<li>Modified level to be sent in us instead of 20us ticks.  This is a result of the improvements to the algorithm where we can actually make out better resolution</li>
+<li>Changed pulse_param to 50</li>
+<li>Fixed potential minor timing issue (ms timer could lose some ticks)</li>
+</ul>
+<h3 id="version-0012---52919">Version 0.0.12 - 5/29/19</h3>
+<h4 id="changes-13">Changes</h4>
+<ul>
+<li>Changes to the core filtering and algorithm to be much more robust to various settings for gain, power, etc.  Changes break legacy app even more.  Also quality will be completely different now for any settings besides the old.</li>
+<li>Changed pulse_param to default to 40 - was 16.</li>
+<li>Fixed an issue with quality saturating to 16-bits when signal too good.  This could also cause bad level</li>
+<li>Changed to use interrupts only - no scheduler.  This should fix a very unlikely race condition over the SPI port between accelo and lora as well</li>
+<li>Added stack guard and other extra checks for &quot;HardFaults&quot;</li>
+</ul>
+<h3 id="version-0011---52419">Version 0.0.11 - 5/24/19</h3>
+<ul>
+<li>Fixed issue with pulse_param not being linear</li>
+</ul>
+<h3 id="version-0010---051019">Version 0.0.10 - 05/10/19</h3>
+<h4 id="changes-14">Changes</h4>
+<ul>
+<li>Fixed bug in Lora transmit.  Caused by using variable on the stack that was not being copied in the SPI driver.</li>
+<li>Added battery measurement into legacy packet (so app can read battery now)</li>
+</ul>
+<h4 id="known-issues-1">Known Issues</h4>
+<ul>
+<li>~~Temperature is not being sent in legacy packet (reports not available so no temp comp will happen in app)</li>
+</ul>
+<h3 id="version-009---050719">Version 0.0.9 - 05/07/19</h3>
+<h4 id="changes-15">Changes</h4>
+<ul>
+<li>Changed LORA packet to send 4 byte MAC address.  And removed the &quot;to&quot; address.</li>
+<li>Low power considerations.  Fixed ADC and accelo sleep.  Created battery estimation spreadsheet.  Looks like average current with no LoRa is down to about 20us under 3.5s advert and sampling</li>
+<li>Added hyper mode after button press. 212ms broadcast. 30 minutes.  Then returns to standard 3.5s broadcast</li>
+<li>Changed BLE parameters to be more friendly on power consumption during connection.  Uses about 30uA average (BLE connection and 3.5s sampling only)</li>
+<li>Changed to use 4dBm for BLE tx power (instead of default 0dBm)</li>
+<li>Changed Lora processing logic to come always after a ultrasonic sample event instead of from a timer.  This is to prevent the possibility of Lora sending at same time as pulse or other activity.</li>
+<li>Added support for reading accelerometer and actively turning off between samples to reduce power and then does fast average of ~30 points.  Sending in legacy accelerometer packet.  Also as characteristic</li>
+<li>Added firmware version characteristic</li>
+<li>Optimize for speed on core algorithm functions</li>
+<li>Lora transition from sleep -&gt; standby polls status bit instead of blindly waiting 1ms for transition</li>
+<li>Removed &quot;presentation format&quot; on some BLE characteristics (U8 and string types) to save memory. These will all likely be removed eventually</li>
+</ul>
+<h4 id="known-issues-2">Known Issues</h4>
+<ul>
+<li>Sampling needs to be timed to come shortly before advertisement to reduce latency slightly and guarantee no BLE during sampling.</li>
+<li>Sampling timing needs to be slightly randomized</li>
+<li>~~Want to get rid of scheduler and use interrupts only</li>
+<li>No BLE notification support for raw level - do we need this though?</li>
+<li><s>Battery voltage is not being sent in legacy packet (still reports 3.5V max)</s></li>
+</ul>
+<h3 id="version-008---042919">Version 0.0.8 - 04/29/19</h3>
+<h4 id="changes-16">Changes</h4>
+<ul>
+<li>Added support for Lora radio, sending tankcheck parameters, and receiving responses from gateway (not yet parsed).</li>
+<li>Added RSSI and SNR for received Lora packets</li>
+<li>Added multiple parameters to configure Lora settings: channel, interval_min, interval_dev, tx_power.</li>
+<li>Press the push button to manually send one Lora packet.  Otherwise the default transmission rate is 1 hour +/- 5 minutes and can be changed over BLE</li>
+<li>Optimization such that 2-byte values are sent as 1-byte if the MSB is 0.</li>
+<li>Removed BLE characteristic descriptions (the friendly name) to save RAM.  Also because nRFConnect now has a very handy feature where you can assign user defined names to UUIDs locally on the phone.</li>
+</ul>
+<h4 id="known-issues-3">Known Issues</h4>
+<ul>
+<li>~~A blue-wire mod is required for Lora to properly receive a packet (DIO0 interrupt)</li>
+<li><s>There is no hyper mode.</s></li>
+<li><s>Idle/Sleep battery consumption is high and has not been debugged yet.</s></li>
+<li><s>Ultrasound is sampled at 3.5 seconds.  And BLE transmissions are sent at a fixed 300ms interval (causing extra battery)</s></li>
+<li><s>There is no accelerometer support</s></li>
+<li>Lora packets are received but nothing is being done with the data yet. The plan is for the &quot;SET&quot; command to assign any variable in the same way BLE can.</li>
+<li>LoRa Transmit power is defaulted to 14dBm even though 20 dBm is module max.  When using a lower battery I could observe resets during transmission due to a series 10 ohm resistor used to limit current for hazardous environment testing.  More research will need to be done on how to best handle this scenario.  If resets occur, lower your transmit power.  A reset can be distinguished if the RSSI of last packet is not set (within the first hour a packet will go out and will update this).</li>
+<li>Parameters are not retained in flash memory, so after a reset or power cycle, all parameters will be back to their factory default values.</li>
+<li>If you change the Lora update interval, it will not take effect until after the next transmission.  Press the push button to send a packet and force the update.</li>
+</ul>
+<h3 id="version-006---040719">Version 0.0.6 - 04/07/19</h3>
+<h3 id="changes-17">Changes</h3>
+<ul>
+<li>Initial release</li>
+</ul>
+<h4 id="known-issues-4">Known Issues</h4>
+<ul>
+<li><s>Lots</s></li>
+<li>~~Emulates classic Tankcheck packet but in low level or high noise scenario the reading sent may not be accurate.  This is because the old sensor could only capture 12 echos, but on new sensor we can easily catch more based on the current settings (e.g. from more noise initially, longer sampling, etc.)  In all cases, the BLE GATT parameter will still be accurate though.</li>
+<li>Not much optimization on thresholds for &quot;empty&quot;.  So a sensor not on a tank may read a non-empty value.  But it should also have a low Q that can be used to distinguish this.  Need to add a setting to ignore Q below X - especially for app</li>
+<li>~~Algorithm only configured for the ultrasound &quot;default&quot; settings.  E.g. readings likely won't work properly if you tweak any of the configurable BLE power such as pulse strength, gain settings, etc.</li>
+<li>~~the LPG level is 'rawLevel' and is simply the time of flight.  No speed of sound or temp correction is performed</li>
+</ul>
+<h3 id="confidentiality-notice--license">Confidentiality Notice / License</h3>
+<p>Mopeka Products, LLC (&quot;COMPANY&quot;) CONFIDENTIAL
+Unpublished Copyright (c) 2015-2019 Mopeka Products, LLC, All Rights Reserved.</p>
+<p>NOTICE: All information contained herein is, and remains the property of COMPANY. The intellectual and technical concepts contained
+herein are proprietary to COMPANY and may be covered by U.S. and Foreign Patents, patents in process, and are protected by trade secret or copyright law.
+Dissemination of this information or reproduction of this material is strictly forbidden unless prior written permission is obtained
+from COMPANY. Access to the file and information contained herein is hereby forbidden to anyone except current COMPANY employees, managers or contractors who have executed
+Confidentiality and Non-disclosure agreements explicitly covering such access.</p>
+<p>The copyright notice above does not evidence any actual or intended publication or disclosure of this information, which includes
+information that is confidential and/or proprietary, and is a trade secret, of COMPANY.  ANY REPRODUCTION, MODIFICATION, DISTRIBUTION, PUBLIC PERFORMANCE,
+OR PUBLIC DISPLAY OF OR THROUGH USE OF THIS INFORMATION WITHOUT THE EXPRESS WRITTEN CONSENT OF COMPANY IS STRICTLY PROHIBITED, AND IN VIOLATION OF APPLICABLE
+LAWS AND INTERNATIONAL TREATIES. THE RECEIPT OR POSSESSION OF THIS FILE AND/OR RELATED INFORMATION DOES NOT CONVEY OR IMPLY ANY RIGHTS
+TO REPRODUCE, DISCLOSE OR DISTRIBUTE ITS CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE, IN WHOLE OR IN PART.</p>
+
+    </body>
+    </html>

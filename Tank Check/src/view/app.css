@@ -1,0 +1,166 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+  font-family: 'Open Sans', 'helvetica neue', helvetica, arial;
+
+  -webkit-touch-callout: none;
+  /* prevent callout to copy image, etc when tap to hold */
+  -webkit-text-size-adjust: none;
+  /* prevent webkit from resizing text to fit */
+  -webkit-user-select: none;
+  /* prevent copy paste, to allow, change 'none' to 'text' */
+}
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input:focus,
+textarea:focus,
+button:focus,
+select:focus,
+a:focus {
+  outline: none;
+}
+
+.rotate-0 {
+  transform: rotate(0deg);
+}
+
+.rotate-25 {
+  transform: rotate(25deg);
+}
+
+.rotate-45 {
+  transform: rotate(45deg);
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.rotate-270 {
+  transform: rotate(270deg);
+}
+
+.btn-primary {
+  @apply px-4 py-2 text-lg font-semibold text-center text-white rounded shadow bg-secondary;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 text-lg font-semibold text-center text-gray-700 bg-gray-200 rounded shadow;
+}
+
+.switch-field input {
+  display: none;
+}
+
+.rc-slider-track {
+  @apply bg-secondary;
+}
+
+.rc-slider-handle {
+  @apply bg-secondary border-secondary;
+}
+
+.disabled-blur {
+  filter: blur(2px);
+}
+
+.disabled-opacity {
+  opacity: 0.3;
+}
+
+.transition-all {
+  transition: all 0.25s ease-in-out;
+}
+
+.transition-shadow {
+  transition: background-color 0.5s ease-in-out;
+}
+
+.listitem-highlight {
+  background-color: #e4f5d6 !important;
+}
+
+.page {
+  /* this may be needed to prevent popin of elements */
+  min-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: absolute;
+  width: 100vw;
+}
+
+.nearby-sensor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 0.75em;
+  row-gap: 0.75em;
+}
+
+.nearby-sensor-top-shadow {
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.pulsating-loader {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation: pulse-shadow 1.5s infinite ease-out;
+  position: absolute;
+}
+
+.pulsating-loader-1 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation: pulse-shadow 1.5s infinite ease-out;
+  animation-delay: 400ms;
+  position: absolute;
+}
+
+@keyframes pulse-shadow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(211, 231, 205, 1);
+  }
+
+  70% {
+    box-shadow: 0 0 0 50px rgba(211, 231, 205, 0.1);
+  }
+
+  100% {
+    box-shadow: 0 0 0 50px rgba(211, 231, 205, 0);
+  }
+}
+
+@keyframes pulse-bounce {
+  0% {
+    transform: scale(0.98);
+  }
+
+  70% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.98);
+  }
+}

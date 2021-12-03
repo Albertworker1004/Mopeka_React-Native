@@ -1,0 +1,42 @@
+.ListItem {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: #fff;
+  height: 100%;
+  display: flex;
+}
+
+.Background {
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 16px;
+  color: white;
+  background-color: #e53e3e;
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.Wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.BouncingListItem {
+  transition: transform 0.5s ease-out;
+  width: 100%;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: #fff;
+  height: 100%;
+  display: flex;
+}

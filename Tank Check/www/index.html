@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
+        <link rel="stylesheet" type="text/css" href="css/dist.bundle.css">
+        <link rel="stylesheet" type="text/css" href="css/custom.css">
+        <title>Mopeka Products</title>
+    </head>
+    <body>
+        <div id="app">
+
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/tank_types.js"></script>
+        <script type="text/javascript" src="js/constants.js"></script>
+        <script>APP_VERSION = '<!--VERSION-->';</script>
+        <script src="js-lib/jquery-2.1.4.min.js"></script>
+        <script src="js-lib/jquery.localize.js"></script>
+        <script type="text/javascript" src="js/dist.bundle.js"></script>
+        <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+        <script src="js-lib/require.min.js"></script>
+
+
+        <script>
+            // requirejs.config( {
+            //     baseUrl: "./js/",
+
+            //     // 3rd party script alias names
+            //     paths: {
+
+            //         // Core Libraries
+            //         "jquery": "../js-lib/jquery-2.1.4.min",
+            //         "jquerymobile": "../js-lib/jquery-mobile/jquery.mobile.custom.min",
+            //         "amazon-cognito-identity-js": "../js-lib/amazon-cognito-identity.min",
+            //     },
+            // });
+
+            // This is required to make jquerymobile work with requirejs.  Basically we must load jquery first, so
+            // we can bind to mobileinit. Then we must load index so we have our BLE object, must bind to 'pagecreate'
+            // first so that when we bind to 'ready' and call initializePage(), we have been binded and will receive
+            // the event.
+            // requirejs(["jquery"], function() {
+            //     $(document).one("mobileinit", function() {
+            //         $.mobile.autoInitializePage = false;    // Switch off autoinitialization of page
+            //     });
+
+            //     requirejs(["jquerymobile"], function(jqm) {
+            //         requirejs(["index"], function() {
+
+            //             $("#tank_check_main").on('pagecreate', function() {
+            //                 ble.initialize();
+            //             });
+
+            //             $(document).ready(function() {
+            //                 console.log("ready");
+            //                 jqm.initializePage();
+            //             });
+            //         });
+            //     });
+            // });
+
+        </script>
+
+    </body>
+</html>

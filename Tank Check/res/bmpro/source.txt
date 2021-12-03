@@ -1,0 +1,7 @@
+Directions:
+
+1. Create image using icon_app_store.xcf as 1024x1024
+2. Pass to URL here http://pgicons.abiro.com/
+3. icon-60.png is 120x120 and needs to be rescaled to 60x60
+alternate but bad names...
+http://makeappicon.com/

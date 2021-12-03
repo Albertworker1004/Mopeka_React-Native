@@ -1,0 +1,148 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "After Prepare",
+      "program": "${workspaceRoot}/hooks/after_prepare/minify-v2.js",
+      "cwd": "${workspaceRoot}",
+      "args": ["${workspaceRoot}"],
+      "env": {
+        "CORDOVA_CMDLINE": "--tankcheck",
+        "CORDOVA_PLATFORMS": "android"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Before Prepare",
+      "program": "${workspaceRoot}/hooks/before_prepare/before_prepare.js",
+      "cwd": "${workspaceRoot}",
+      "args": ["${workspaceRoot}"],
+      "env": {
+        "CORDOVA_CMDLINE": "--tankcheck",
+        "CORDOVA_PLATFORMS": "android"
+      }
+    },
+    {
+      "name": "Run Android on device",
+      "type": "cordova",
+      "request": "launch",
+      "platform": "android",
+      "target": "device",
+      "runArguments": ["--tankcheck"],
+      "port": 9222,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}",
+      "ionicLiveReload": false
+    },
+    {
+      "name": "Run iOS on device",
+      "type": "cordova",
+      "request": "launch",
+      "platform": "ios",
+      "target": "device",
+      "runArguments": ["--tankcheck"],
+      "port": 9220,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}",
+      "ionicLiveReload": false
+    },
+    {
+      "name": "Attach to running android on device",
+      "type": "cordova",
+      "request": "attach",
+      "platform": "android",
+      "target": "device",
+      "port": 9222,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "name": "Attach to running iOS on device",
+      "type": "cordova",
+      "request": "attach",
+      "platform": "ios",
+      "target": "device",
+      "port": 9220,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "name": "Run Android on emulator",
+      "type": "cordova",
+      "request": "launch",
+      "platform": "android",
+      "target": "emulator",
+      "runArguments": ["--tankcheck"],
+      "port": 9222,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}",
+      "ionicLiveReload": false
+    },
+    {
+      "name": "Run iOS on simulator",
+      "type": "cordova",
+      "request": "launch",
+      "platform": "ios",
+      "target": "emulator",
+      "port": 9220,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}",
+      "ionicLiveReload": false
+    },
+    {
+      "name": "Attach to running android on emulator",
+      "type": "cordova",
+      "request": "attach",
+      "platform": "android",
+      "target": "emulator",
+      "port": 9222,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "name": "Attach to running iOS on simulator",
+      "type": "cordova",
+      "request": "attach",
+      "platform": "ios",
+      "target": "emulator",
+      "port": 9220,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "name": "Serve to the browser (ionic serve)",
+      "type": "cordova",
+      "request": "launch",
+      "platform": "serve",
+      "cwd": "${workspaceRoot}",
+      "devServerAddress": "localhost",
+      "sourceMaps": true,
+      "ionicLiveReload": true
+    },
+    {
+      "name": "Simulate Android in browser",
+      "type": "cordova",
+      "request": "launch",
+      "platform": "android",
+      "target": "chrome",
+      "simulatePort": 8000,
+      "livereload": true,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "name": "Simulate iOS in browser",
+      "type": "cordova",
+      "request": "launch",
+      "platform": "ios",
+      "target": "chrome",
+      "simulatePort": 8000,
+      "livereload": true,
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    }
+  ]
+}
